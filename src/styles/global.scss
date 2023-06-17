@@ -1,0 +1,147 @@
+$light-black: #191919;
+$grey: #bbb;
+$light-grey: #f8f8f8;
+$white: #fefefe;
+
+@mixin font-montserrat {
+	font-family: Montserrat, Helvetica, Arial, sans-serif;
+}
+
+@mixin font-title {
+	font-family: BenchNine, "Helvetica Neue", Arial, Helvetica, Verdana, sans-serif;
+	font-style: bold;
+}
+
+// Navigation & site wrapper layout
+body {
+	@include font-montserrat;
+	margin: 0;
+	display: flex;
+	overflow-x: hidden;
+	background-color: #F1F1F1;
+	--nav-width: 0px;
+}
+
+.navigation {
+	position: fixed;
+	width:  var(--nav-width);
+	height: 100%;
+	background-color: $light-black;
+}
+
+/* Nav Trigger */
+.nav-trigger {
+	/* critical styles - hide the checkbox input */
+	position: absolute;
+	clip: rect(0, 0, 0, 0);
+}
+
+.site-wrap {
+	width: calc(100% - var(--nav-width));
+	position: absolute;
+	left: var(--nav-width);
+}
+
+
+/* Make the Magic Happen */
+.navigation,
+.site-wrap {
+	transition: all 0.4s;
+}
+
+// show naviation on clicking hamburger icon
+.nav-trigger:checked~*{
+		--nav-width: 15em;	
+}
+
+// fixed navigation and no hamburger menu on large screens
+@media screen and (min-width: 1024px) {
+	.navigation-header{
+		display: none;
+	}
+	body{
+	--nav-width: 15em;	
+	}
+}
+
+// END navigation & site wrapper layout
+
+// Styling
+.navigation{
+	p {
+		@include font-title;
+		text-align: center;
+
+		color: $light-grey;
+		font-size: 1.5rem;
+	}
+
+	ul {
+		list-style: none;
+		margin-bottom: 3rem;
+		margin-left: 0;
+
+		li {
+			padding: .7rem 0 0 0;
+		}
+
+		a {
+			@include font-montserrat;
+			text-decoration: none;
+			color: $light-grey;
+			font-size: .9rem;
+			line-height: 1.5rem;
+			padding: 0;
+			// display: block;
+
+			&:hover {
+				color: $grey;
+			}
+		}
+	}
+}
+
+
+
+.navigation-header {
+	position: relative;
+	z-index: 2;
+	background-color: $light-black;
+	width: 100%;
+	height: 55px;
+
+	// the hamburger icon in SVG
+	label {
+		display: block;
+		position: absolute;
+		left: 15px;
+		top: 15px;
+		height: 30px;
+		width: 30px;
+		cursor: pointer;
+		background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' version='1.1' x='0px' y='0px' fill='white' width='30px' height='30px' viewBox='0 0 30 30' enable-background='new 0 0 30 30' xml:space='preserve'><rect width='30' height='4'/><rect y='20' width='30' height='4'/><rect y='10' width='30' height='4'/></svg>");
+		background-size: contain;
+	}
+
+	span {
+		color: white;
+		top: 50%;
+		left: 40px;
+		transform: translate(0%, -50%);
+		position: absolute;
+
+		@include font-title;
+		font-size: 1.6rem
+	}
+}
+
+
+.main {
+	padding: 0 3%;
+	.content {
+	  padding: 2rem;
+	  max-width: 800px;
+	  margin: 2rem 3rem;
+	  background-color: #FFF;
+	}
+  }

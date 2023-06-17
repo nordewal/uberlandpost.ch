@@ -1,0 +1,15 @@
+---
+import type { CollectionEntry } from "astro:content";
+import SiteLayout from "./site.astro";
+
+const { title } = Astro.props;
+---
+
+<SiteLayout title={title}>
+    <div class="main">
+        <div class="content">
+            <!-- layout content is injected here -->
+            <slot />
+        </div>
+    </div>
+</SiteLayout>

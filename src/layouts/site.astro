@@ -1,0 +1,39 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+const { title } = Astro.props;
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <BaseHead
+            title={`überlandpost - ${title}`}
+            description="Blog von überlandpost.ch"
+        />
+        <style lang="scss">
+            @import "../styles/global.scss";
+        </style>
+    </head>
+    <body>
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <div class="navigation">
+            <p>Navigation</p>
+            <ul>
+                <li class="nav-item"><a href="/">Home</a></li>
+                <li class="nav-item"><a href="/map">Karte</a></li>
+                <li class="nav-item"><a href="/about">Über uns</a></li>
+            </ul>
+        </div>
+
+        <div class="site-wrap">
+            <div class="navigation-header">
+                <label for="nav-trigger">
+                    <span>überlandpost.ch</span>
+                </label>
+            </div>
+            <!-- layout content is injected here -->
+            <slot />
+        </div>
+    </body>
+</html>
