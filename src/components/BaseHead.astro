@@ -1,7 +1,7 @@
 ---
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
-import '../styles/global.css';
+import '../styles/global.scss';
 
 export interface Props {
 	title: string;
@@ -27,6 +27,9 @@ const { title, description, image = '/placeholder-social.jpg' } = Astro.props;
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css?family=Raleway:300,regular,700|BenchNine:300,regular,700|Montserrat|Open+Sans" rel="stylesheet" />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />

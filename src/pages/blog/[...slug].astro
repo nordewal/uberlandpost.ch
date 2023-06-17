@@ -1,21 +1,34 @@
 ---
-import { CollectionEntry, getCollection } from 'astro:content';
-import BlogPost from '../../layouts/BlogPost.astro';
+import { CollectionEntry, getCollection } from "astro:content";
+import ContentLayout from "../../layouts/content.astro";
+import FormattedDate from "../../components/FormattedDate.astro";
+import { Image } from "@astrojs/image/components";
 
 export async function getStaticPaths() {
-	const posts = await getCollection('blog');
+	const posts = await getCollection("blog");
 	return posts.map((post) => ({
 		params: { slug: post.slug },
 		props: post,
 	}));
 }
-type Props = CollectionEntry<'blog'>;
+type Props = CollectionEntry<"blog">;
 
 const post = Astro.props;
 const { Content } = await post.render();
 ---
 
-<BlogPost {...post.data}>
-	<h1>{post.data.title}</h1>
-	<Content />
-</BlogPost>
+<ContentLayout title={post.data.title}>
+	<style lang="scss">
+		@import "../../styles/post.scss";
+	</style>
+	<article>
+		<h2>{post.data.title}</h2>
+		<div class="meta"><FormattedDate date={post.data.date} /></div>
+		<!-- <Image width="400" height="400" src={`/blog/${post.data.slug}/main.jpg`} alt="" /> -->
+		<Image class="main"
+			src={import(`../../content/blog/${post.slug}/main.jpg`)}
+			alt={post.data.title}
+		/>
+		<Content />
+	</article>
+</ContentLayout>
