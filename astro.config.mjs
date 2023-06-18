@@ -5,7 +5,7 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://uberlandpost.pages.dev',
   integrations: [mdx(), sitemap(), react()],
   experimental: {
     assets: true
