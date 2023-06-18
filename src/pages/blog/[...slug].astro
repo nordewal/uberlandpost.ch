@@ -1,8 +1,11 @@
 ---
 import { CollectionEntry, getCollection } from "astro:content";
+import { Image, getImage } from "astro:assets";
 import ContentLayout from "../../layouts/content.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
-import { Image } from "@astrojs/image/components";
+import Gallery from "../../components/gallery";
+import { Debug } from 'astro/components';
+
 
 export async function getStaticPaths() {
 	const posts = await getCollection("blog");
@@ -15,20 +18,41 @@ type Props = CollectionEntry<"blog">;
 
 const post = Astro.props;
 const { Content } = await post.render();
+
+
+const images = await Promise.all(
+	[post.data.cover, post.data.images].flat().filter(i=>i!==undefined ).map(async (i) => {
+		return {
+			original: (
+				await getImage({
+					src: i,
+				})
+			).src,
+			thumbnail: (
+				await getImage({
+					src: i,
+					width: 100,
+				})
+			).src,
+		};
+	})
+);
 ---
 
 <ContentLayout title={post.data.title}>
-	<style lang="scss">
+	<style lang="scss" is:global>
 		@import "../../styles/post.scss";
+  
 	</style>
+	<script></script>
 	<article>
 		<h2>{post.data.title}</h2>
 		<div class="meta"><FormattedDate date={post.data.date} /></div>
-		<!-- <Image width="400" height="400" src={`/blog/${post.data.slug}/main.jpg`} alt="" /> -->
-		<Image class="main"
-			src={import(`../../content/blog/${post.slug}/main.jpg`)}
-			alt={post.data.title}
-		/>
+		<div id="gallery">
+			<Gallery images={images} client:load />
+		</div>
 		<Content />
+	</div>
+	</div>
 	</article>
 </ContentLayout>

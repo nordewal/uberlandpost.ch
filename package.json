@@ -5,16 +5,23 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "prebuild": "./fix-images.sh",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/image": "^0.17.0",
     "@astrojs/mdx": "^0.19.7",
+    "@astrojs/react": "^2.2.1",
     "@astrojs/rss": "^2.4.3",
     "@astrojs/sitemap": "^1.3.3",
+    "@types/react": "^18.2.12",
+    "@types/react-dom": "^18.2.5",
     "astro": "^2.6.4",
+    "fast-glob": "^3.2.12",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-image-gallery": "^1.2.12",
     "sass": "^1.63.4"
   }
 }

@@ -7,7 +7,7 @@ export const collectionNames = Object.keys(glob).map((filepath) => path.basename
 
 const blog = defineCollection({
 	// Type-check frontmatter using a schema
-	schema: z.object({
+	schema: ({ image }) => z.object({
 		title: z.string(),
 		description: z.string(),
 		// Transform string to Date object
@@ -15,7 +15,10 @@ const blog = defineCollection({
 			.string()
 			.or(z.date())
 			.transform((val) => new Date(val)),
-		image: z.any().optional(),
+			cover: image().refine((img) => img.width >= 400, {
+				message: "Cover image must be at least 400 pixels wide!",
+			  }),
+		images: image().array().optional(),
 	}),
 });
 

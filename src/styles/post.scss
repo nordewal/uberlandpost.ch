@@ -1,58 +1,83 @@
 @import "global.scss";
 
-article{
+article {
+  h2 {
+    font-weight: bold;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-align: center;
+    @include font-title;
+    font-size: 2.5rem;
+    margin: .5rem;
+  }
 
-    h2{
-      font-weight: bold;
-      letter-spacing: 3px;
+  .meta {
+    text-align: center;
+    width: 100%;
+    margin-top: -0.4rem;
+    margin-bottom: 2rem;
+    font-size: .9rem;
+  }
+
+  #gallery {
+    max-width: 90%;
+    width: auto;
+    height: auto;
+    display: block;
+    margin: auto;
+    padding-bottom: 1rem;
+  }
+
+  p {
+    font-size: 0.9rem;
+    line-height: 1.8rem;
+    color: #525452;
+    text-align: justify;
+    padding: 0 10px;
+
+    /* dropcap */
+    &:first-of-type:first-letter {
+      color: #333;
+      font-size: 6rem;
       text-transform: uppercase;
-      text-align: center;
-      @include font-title;
-      font-size:2.5rem;
-      margin: .5rem;
-    }
-  
-    .meta{
-      text-align: center;
-      width: 100%;
-      margin-top: -0.4rem;
-      margin-bottom: 2rem;
-      font-size: .9rem;
-    }
-  
-    img.main{
-      max-width:80%;
-      width: auto;
-      height: auto;
-      display: block;
-      margin: auto;
-      padding-bottom: 3rem;
-    }
-  
-    p {
-      font-size: 0.9rem;
-      line-height: 1.8rem;
-      color: #525452;
-      text-align: justify;
-      padding: 0 10px;
-  
-      /* dropcap */
-      &:first-of-type:first-letter{
-        color: #333;
-        font-size: 6rem;
-        text-transform: uppercase;
-        float: left;
-        line-height: 5rem;
-        font-weight: 700;
-        padding-top: 4px;
-        padding-right: 8px;
-        padding-left: 0px;
-      }
-    }
-  
-    
-    .comments {
-      padding-top: 2.5rem;
+      float: left;
+      line-height: 5rem;
+      font-weight: 700;
+      padding-top: 4px;
+      padding-right: 8px;
+      padding-left: 0px;
     }
   }
-  
+
+
+  .comments {
+    padding-top: 2.5rem;
+  }
+}
+
+button.image-gallery-thumbnail {
+  width: auto;
+}
+
+.image-gallery-thumbnail img.image-gallery-thumbnail-image {
+  width: auto;
+  height: 75px;
+  max-width: 100%;
+}
+
+.image-gallery-slides img {
+  width: 100%;
+  aspect-ratio: 3/2;
+}
+
+.fullscreen {
+  .image-gallery-thumbnails-wrapper {
+    display: none;
+  }
+
+  .image-gallery-slides img {
+    width: 100%;
+    height: calc(100vh - 10px) !important;
+    max-height: calc(100vh - 10px) !important;
+  }
+}

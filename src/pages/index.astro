@@ -1,21 +1,22 @@
 ---
 import SiteLayout from '../layouts/site.astro';
-import { Image } from '@astrojs/image/components';
-import { getImage } from '@astrojs/image';
+import { Image, getImage } from 'astro:assets'
 import { getCollection } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
-const p = (await getCollection("blog")).sort(
+const posts = (await getCollection("blog")).sort(
 	(a, b) => a.data.date.valueOf() - b.data.date.valueOf()
-);
-const posts = await Promise.all(p.map(async(post) => {
-	post.data.image = await getImage({
-		src: import(`../content/blog/${post.slug}/main.jpg`),
-		alt: post.data.title,
-	})
-	return post
-}))
+	);
+
+// load small cover images into a map
+var images = new Map();
+await Promise.all(posts.map(async (post) => {
+	images.set(post.slug, await getImage({
+		src: post.data.cover,
+		width: 400,
+	}));
+}));
 ---
 
 <SiteLayout title="">
@@ -27,6 +28,7 @@ const posts = await Promise.all(p.map(async(post) => {
 			transition: all ease 0.5s;
 
 			a {
+				aspect-ratio: 1;
 				display: flex;
 				position: relative;
 
@@ -84,13 +86,15 @@ const posts = await Promise.all(p.map(async(post) => {
 		}
 	</style>
 
+<!-- <img src={images.get(post.slug).src} width="400" alt={post.data.title}> -->
 		<div class="blog-grid">
 				{
 					posts.map((post) => (
 						
 						<div class="grid-item">
 							<a href={`/blog/${post.slug}/`}>
-								<img  src={post.data.image.src} alt={post.data.title}>
+								<Image src={post.data.cover} alt="" />
+								
 									<p>
 										{post.data.title}
 										<br />
@@ -98,7 +102,7 @@ const posts = await Promise.all(p.map(async(post) => {
 											date={post.data.date}
 										/>
 									</p>
-								</img>
+								</Image>
 							</a>
 						</div>
 					))

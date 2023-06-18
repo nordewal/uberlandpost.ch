@@ -2,6 +2,17 @@
 title: "First post & Jan"
 description: "Lorem ipsum dolor sit amet"
 date: "Jul 08 2022"
+cover: ./s_DSCF7541.jpg
+images:
+  - ./s_DSCF7538.jpg
+  - ./s_DSCF7539.jpg
+  - ./s_DSCF7540.jpg
+  - ./s_DSCF7541.jpg
+  - ./s_DSCF7542.jpg
+  - ./s_DSCF7543.jpg
+  - ./s_DSCF7545.jpg
+  - ./s_DSCF7547.jpg
+  - ./s_DSCF7548.jpg
 ---
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
