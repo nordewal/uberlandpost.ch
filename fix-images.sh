@@ -6,8 +6,7 @@ find . -iname '*.JPG' -exec sh -c '
   [ "$a" != "$0" ] && mv "$0" "$a" ' {} \;
 
 for f in (find src/content/blog/ -iname "*jpg")
-  echo $f
-  if test (identify -format '%[EXIF:orientation]' $f) -eq 1
+  if test (identify -format '%[EXIF:orientation]' $f 2>/dev/null) -eq 1
     if test (identify -format '%[height]' $f) -le 2000 && test (identify -format '%[width]' $f) -le 2000
       continue
     end
