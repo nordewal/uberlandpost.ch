@@ -1,7 +1,7 @@
 ---
 title: Von slowenischen Wäldern zu kroatischen Buchten
 date: 2023-06-15
-cover: ./DSCF9418.jpg
+cover: ./DSCF9511.jpg
 images:
   - ./DSCF9234.jpg
   - ./DSCF9244.jpg
@@ -9,13 +9,14 @@ images:
   - ./DSCF9257.jpg
   - ./DSCF9267.jpg
   - ./DSCF9272.jpg
+  - ./DSCF9418.jpg
   - ./DSCF9280.jpg
   - ./DSCF9338.jpg
   - ./DSCF9442.jpg
   - ./DSCF9488.jpg
   - ./DSCF9490.jpg
   - ./20230617_182441.jpg
-  - ./20230617_214947.jpg
+  - ./DSCF9511.jpg
 ---
 
 Nach einem erfrischenden Morgenbad bei erneut strahlend schönem Wetter geht die Reise weiter Richtung Südosten. Spritsparend in der Lastwagenkolonne tuckern wir gemächlich vom flachen Norditalien in die Berge von Slowenien.

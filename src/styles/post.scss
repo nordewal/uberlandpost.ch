@@ -7,7 +7,7 @@ article {
     text-transform: uppercase;
     text-align: center;
     @include font-title;
-    font-size: 2.5rem;
+    font-size: 2.3rem;
     margin: .5rem;
   }
 
@@ -19,13 +19,13 @@ article {
     font-size: .9rem;
   }
 
-  #gallery {
-    max-width: 90%;
-    width: auto;
-    height: auto;
+  img {
     display: block;
+    width: 75%;
     margin: auto;
-    padding-bottom: 1rem;
+    aspect-ratio: auto;
+    height: auto;
+    padding-bottom: 3rem;
   }
 
   p {
@@ -48,36 +48,31 @@ article {
       padding-left: 0px;
     }
   }
-
-
-  .comments {
-    padding-top: 2.5rem;
-  }
 }
 
-button.image-gallery-thumbnail {
-  width: auto;
-}
+.grid-sizer,
+.grid-item {
+ 
 
-.image-gallery-thumbnail img.image-gallery-thumbnail-image {
-  width: auto;
-  height: 75px;
-  max-width: 100%;
-}
-
-.image-gallery-slides img {
-  width: 100%;
-  aspect-ratio: 3/2;
-}
-
-.fullscreen {
-  .image-gallery-thumbnails-wrapper {
-    display: none;
-  }
-
-  .image-gallery-slides img {
+  @media only screen and (max-width: 600px) {
     width: 100%;
-    height: calc(100vh - 10px) !important;
-    max-height: calc(100vh - 10px) !important;
   }
+
+  @media only screen and (min-width: 768px) {
+    width: 50%;
+  }
+
+  @media only screen and (min-width: 992px) {
+    width: 33%;
+  }
+
+
+  img {
+    width: calc(100% - .4rem);
+    padding-top: .2rem;
+  }
+}
+
+.comments {
+  padding-top: 2.5rem;
 }

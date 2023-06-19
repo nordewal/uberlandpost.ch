@@ -3,9 +3,6 @@ import { CollectionEntry, getCollection } from "astro:content";
 import { Image, getImage } from "astro:assets";
 import ContentLayout from "../../layouts/content.astro";
 import FormattedDate from "../../components/FormattedDate.astro";
-import Gallery from "../../components/gallery";
-import { Debug } from 'astro/components';
-
 
 export async function getStaticPaths() {
 	const posts = await getCollection("blog");
@@ -19,56 +16,99 @@ type Props = CollectionEntry<"blog">;
 const post = Astro.props;
 const { Content } = await post.render();
 
-
 const images = await Promise.all(
-	[post.data.cover, post.data.images].flat().filter(i=>i!==undefined ).map(async (i) => {
-		return {
-			original: (
-				await getImage({
+	[post.data.images]
+		.flat()
+		.filter((i) => i !== undefined)
+		.map(async (i) => {
+			return {
+				original: await getImage({
 					src: i,
-				})
-			).src,
-			thumbnail: (
-				await getImage({
+					alt: "",
+				}),
+				thumbnail: await getImage({
 					src: i,
-					width: 100,
-				})
-			).src,
-		};
-	})
+					width: 260,
+					alt: "",
+				}),
+			};
+		})
 );
 ---
 
 <ContentLayout title={post.data.title}>
 	<style lang="scss" is:global>
 		@import "../../styles/post.scss";
-  
+		@import "photoswipe/style.css";
 	</style>
-	<script></script>
+	<script>
+		import PhotoSwipeLightbox from "photoswipe/lightbox";
+		import PhotoSwipe from "photoswipe";
+		import Masonry from "masonry-layout";
+		import imagesLoaded from "imagesloaded";
+
+		// PhotoSwipeLightbox is the nice UI when clicking on a picture
+		const lightbox = new PhotoSwipeLightbox({
+			gallery: "#gallery",
+			children: "a",
+			pswpModule: PhotoSwipe,
+		});
+		lightbox.init();
+
+		// Masonry is the nice grid layout of the images
+		var msnry = new Masonry(document.querySelector("#gallery"), {
+			itemSelector: ".grid-item",
+			columnWidth: ".grid-sizer",
+			percentPosition: true,
+		});
+
+		// Re-arrange grid as images are loaded, otherwise it looks broken
+		imagesLoaded('#gallery', ()=>{}).on('progress', function () {
+			msnry.layout();
+		});
+	</script>
 	<article>
 		<h2>{post.data.title}</h2>
 		<div class="meta"><FormattedDate date={post.data.date} /></div>
-		<div id="gallery">
-			<Gallery images={images} client:load />
-		</div>
+		<Image src={post.data.cover} width="1024" alt="" />
 		<Content />
 	</article>
+	<div id="gallery" class="grid">
+		<div class="grid-sizer"></div>
+		{
+			images.map((image) => (
+				<a
+					class="grid-item"
+					href={image.original.src}
+					data-pswp-width={image.original.attributes.width}
+					data-pswp-height={image.original.attributes.height}
+					target="_blank"
+				>
+					<img src={image.thumbnail.src} alt="" />
+				</a>
+			))
+		}
+		<!-- </div> -->
+	</div>
+
 	<div id="disqus_thread"></div>
 	<script>
 		/**
-		*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-		*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
+		 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+		 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
 		/*
 		var disqus_config = function () {
 		this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
 		this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 		};
 		*/
-		(function() { // DON'T EDIT BELOW THIS LINE
-		var d = document, s = d.createElement('script');
-		s.src = 'https://uberlandpost.disqus.com/embed.js';
-		s.setAttribute('data-timestamp', +new Date());
-		(d.head || d.body).appendChild(s);
+		(function () {
+			// DON'T EDIT BELOW THIS LINE
+			var d = document,
+				s = d.createElement("script");
+			s.src = "https://uberlandpost.disqus.com/embed.js";
+			s.setAttribute("data-timestamp", +new Date());
+			(d.head || d.body).appendChild(s);
 		})();
 	</script>
 </ContentLayout>

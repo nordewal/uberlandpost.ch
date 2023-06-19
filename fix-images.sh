@@ -6,10 +6,10 @@ find . -iname '*.JPG' -exec sh -c '
   [ "$a" != "$0" ] && mv "$0" "$a" ' {} \;
 
 for f in (find src/content/blog/ -iname "*jpg")
-  if test (identify -format '%[EXIF:orientation]' $f 2>/dev/null) -eq 1
+  if identify -format '%[EXIF:orientation]' $f 2>&1 |grep -Eq "(^1|unknown image property)"
     if test (identify -format '%[height]' $f) -le 2000 && test (identify -format '%[width]' $f) -le 2000
       continue
     end
   end
-  mogrify -auto-orient -resize 2000x2000\> $f
+  mogrify -auto-orient -resize 2000x2000\> $f &
 end
