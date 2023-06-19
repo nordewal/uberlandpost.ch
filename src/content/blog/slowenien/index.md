@@ -1,7 +1,7 @@
 ---
 title: Von slowenischen Wäldern zu kroatischen Buchten
 date: 2023-06-15
-cover: ./DSCF9511.jpg
+cover: ./DSCF9338.jpg
 images:
   - ./DSCF9234.jpg
   - ./DSCF9244.jpg
