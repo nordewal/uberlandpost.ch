@@ -2,8 +2,6 @@
 dist/
 # generated types
 .astro/
-# template
-src/content/blog/_template
 
 # dependencies
 node_modules/
