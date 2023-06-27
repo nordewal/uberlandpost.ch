@@ -71,6 +71,55 @@ article {
     width: calc(100% - .4rem);
     padding-top: .2rem;
   }
+
+  .image-desc{
+    opacity: 1;
+    position: absolute;
+    bottom: .2rem;
+    width: calc(100% - .8rem);
+    font-size: .8rem;
+    padding: 0.4rem;
+    background: hsla(0,0%,100%,.75);
+    transition: opacity .25s;
+    margin: 0;
+    color:#0a0a0a;
+    max-height: 25%;
+    
+    overflow-wrap: break-word;
+    word-break: break-all; 
+    overflow: hidden;
+
+    &:empty{
+      display: none;
+    }
+  }
+}
+
+.pswp{
+  background:black;
+}
+
+
+.pswp__custom-caption {
+  color: white;
+  font-size: .9rem;
+  height: 30px;
+      
+  overflow-wrap: break-word;
+  word-break: break-all; 
+  overflow: hidden;
+  padding: 0px 5%;
+  width: 100%;
+  position: absolute;
+  bottom:0;
+  text-align: center;
+}
+.pswp__custom-caption a {
+  color: #fff;
+  text-decoration: underline;
+}
+.hidden-caption-content {
+  display: none;
 }
 
 .comments {

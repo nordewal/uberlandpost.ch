@@ -3,10 +3,10 @@ title: Endlich los!
 date: 2023-06-14
 cover: ./IMG-20230614-WA0000.jpg
 images:
-  - ./20230610_104853~2.jpg
-  - ./20230613_084034.jpg
-  - ./PXL_20230614_203658820.MP.jpg
-  - ./IMG-20230614-WA0000.jpg
+  - img: ./20230610_104853~2.jpg
+  - img: ./20230613_084034.jpg
+  - img: ./PXL_20230614_203658820.MP.jpg
+  - img: ./IMG-20230614-WA0000.jpg
 ---
 
 Lange – gute vier Monate - haben wir an unserem neuen Zuhause gebastelt. Einen leeren VW-Crafter haben wir in dieser Zeit umgebaut in ein gemütliches Zuhause auf Rädern mit allem «Schischi», wie Nadine dies so gerne nennt (Strom, Wasser, Heizung, Backofen, …). Ende Mai ist unser Bauprojekt fertig, die MFK bestanden und die Wohnung gegen unser mobiles Daheim eingetauscht. Mit einem kleinen Fest verabschieden wir unsere Freunde, etwas später auch unsere Familien. Es kann losgehen!
