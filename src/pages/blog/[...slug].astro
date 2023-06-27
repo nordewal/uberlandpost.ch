@@ -23,13 +23,13 @@ const images = await Promise.all(
 		.map(async (i) => {
 			return {
 				original: await getImage({
-					src: i,
-					alt: "",
+					src: i.img,
+					alt: i.desc,
 				}),
 				thumbnail: await getImage({
-					src: i,
+					src: i.img,
 					width: 400,
-					alt: "",
+					alt: i.desc,
 				}),
 			};
 		})
@@ -52,6 +52,36 @@ const images = await Promise.all(
 			gallery: "#gallery",
 			children: "a",
 			pswpModule: PhotoSwipe,
+			paddingFn: (viewportSize) => {
+				return {
+					top: 0,
+					bottom: 40,
+					left: 0,
+					right: 0,
+				};
+			},
+		});
+		lightbox.on("uiRegister", function () {
+			lightbox.pswp.ui.registerElement({
+				name: "custom-caption",
+				order: 9,
+				isButton: false,
+				appendTo: "root",
+				html: "Caption text",
+				onInit: (el, pswp) => {
+					lightbox.pswp.on("change", () => {
+						const currSlideElement =
+							lightbox.pswp.currSlide.data.element;
+						let captionHTML = "";
+						if (currSlideElement) {
+							captionHTML = currSlideElement
+								.querySelector("img")
+								.getAttribute("alt");
+						}
+						el.innerHTML = captionHTML || "";
+					});
+				},
+			});
 		});
 		lightbox.init();
 
@@ -63,7 +93,7 @@ const images = await Promise.all(
 		});
 
 		// Re-arrange grid as images are loaded, otherwise it looks broken
-		imagesLoaded('#gallery', ()=>{}).on('progress', function () {
+		imagesLoaded("#gallery", () => {}).on("progress", function () {
 			msnry.layout();
 		});
 	</script>
@@ -84,7 +114,11 @@ const images = await Promise.all(
 					data-pswp-height={image.original.attributes.height}
 					target="_blank"
 				>
-					<img src={image.thumbnail.src} alt="" />
+					<img
+						src={image.thumbnail.src}
+						alt={image.original.attributes.alt}
+					/>
+					<p class="image-desc">{image.original.attributes.alt}</p>
 				</a>
 			))
 		}
