@@ -14,7 +14,7 @@ var images = new Map();
 await Promise.all(posts.map(async (post) => {
 	images.set(post.slug, await getImage({
 		src: post.data.cover,
-		width: 400,
+		width: 500,
 	}));
 }));
 ---
