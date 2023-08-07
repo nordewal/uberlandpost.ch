@@ -21,7 +21,7 @@ images:
   - img: ./DSCF0944.jpg
     desc: "Blaue Moschee"
   - img: ./PXL_20230721_182432183.MP.jpg
-    desc: "Feinstes Essen im Barat et Mangel"
+    desc: "Feinstes Essen im Barat et Mangal"
   - img: ./DSCF0952.jpg
     desc: "Nächtliche Snacks kaufen"
   - img: ./DSCF0967.jpg
