@@ -24,7 +24,7 @@ body {
 
 .navigation {
 	position: fixed;
-	width:  var(--nav-width);
+	width: var(--nav-width);
 	height: 100%;
 	background-color: $light-black;
 }
@@ -50,24 +50,25 @@ body {
 }
 
 // show naviation on clicking hamburger icon
-.nav-trigger:checked~*{
-		--nav-width: 15em;	
+.nav-trigger:checked~* {
+	--nav-width: 15em;
 }
 
 // fixed navigation and no hamburger menu on large screens
 @media screen and (min-width: 1024px) {
-	.navigation-header{
+	.navigation-header {
 		display: none;
 	}
-	body{
-	--nav-width: 15em;	
+
+	body {
+		--nav-width: 15em;
 	}
 }
 
 // END navigation & site wrapper layout
 
 // Styling
-.navigation{
+.navigation {
 	p {
 		@include font-title;
 		text-align: center;
@@ -137,11 +138,19 @@ body {
 
 
 .main {
-	padding: 0 3%;
-	.content {
-	  padding: 2rem;
-	  max-width: 800px;
-	  margin: 2rem auto;
-	  background-color: #FFF;
+	@media only screen and (min-width: 800px) {
+		padding: 0 3%;
 	}
-  }
+
+	.content {
+		max-width: 800px;
+		background-color: #FFF;
+		padding: 0.5rem;
+		margin: 0 auto;
+
+		@media only screen and (min-width: 800px) {
+			padding: 2rem;
+			margin: 2rem auto;
+		}
+	}
+}

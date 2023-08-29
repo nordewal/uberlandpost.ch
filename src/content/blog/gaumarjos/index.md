@@ -1,5 +1,5 @@
 ---
-title: Gaumarjos!
+title: Georgischer Wein
 date: 2023-08-20
 country: Georgien
 cover: ./DSCF4448.jpg
