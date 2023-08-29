@@ -198,7 +198,9 @@ const images = await Promise.all(
 	</script>
 	<article>
 		<h2>{post.data.title}</h2>
-		<div class="meta"><FormattedDate date={post.data.date} /></div>
+		<div class="meta">
+			{post.data.country} • <FormattedDate date={post.data.date} />
+		</div>
 		<Image src={post.data.cover} width="1024" alt="" />
 		<Content />
 	</article>

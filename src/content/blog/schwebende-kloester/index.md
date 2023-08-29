@@ -1,6 +1,7 @@
 ---
 title: Schwebende Klöster
 date: 2023-07-10
+country: Montenegro, Nordmazedonien & Griechenland
 cover: ./DSCF0236.jpg
 images:
   - img: ./DSCF9864.jpg

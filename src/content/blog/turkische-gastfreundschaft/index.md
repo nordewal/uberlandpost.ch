@@ -1,6 +1,7 @@
 ---
 title: Türkische Gastfreundschaft
 date: 2023-08-04
+country: Türkei
 cover: ./DSCF4011.jpg
 images:
   - img: ./DSCF2272.jpg

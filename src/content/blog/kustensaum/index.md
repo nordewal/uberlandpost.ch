@@ -1,6 +1,7 @@
 ---
 title: Küstensaum
 date: 2023-06-27
+country: Kroatien
 cover: ./DSCF9629.jpg
 images:
   - img: ./DSCF9517.jpg

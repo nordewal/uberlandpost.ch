@@ -1,6 +1,7 @@
 ---
 title: Ausgehöhlt und aufgebläht
 date: 2023-07-27
+country: Türkei
 cover: ./DSCF2048.jpg
 images:
   - img: ./PXL_20230720_153702182.MP.jpg

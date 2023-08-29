@@ -16,6 +16,7 @@ const blog = defineCollection({
 		cover: image().refine((img) => img.width >= 400, {
 			message: "Cover image must be at least 400 pixels wide!",
 		}),
+		country: z.string().optional(),
 		images: z.array(z.object({
 			img: image(),
 			desc: z.string().optional()

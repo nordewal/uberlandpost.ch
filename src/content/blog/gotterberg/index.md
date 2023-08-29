@@ -1,6 +1,7 @@
 ---
 title: Götterberg
 date: 2023-07-20
+country: Griechenland
 cover: ./DSCF0753.jpg
 images:
   - img: ./DSCF0389.jpg
