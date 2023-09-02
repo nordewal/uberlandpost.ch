@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://überlandpost.ch',
+  site: 'https://xn--berlandpost-shb.ch/',
   integrations: [mdx(), sitemap()],
   experimental: {
     assets: true
