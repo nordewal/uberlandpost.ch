@@ -184,9 +184,11 @@ import SiteLayout from "../layouts/site.astro";
                         // 360 degress is once around the earth, which has 24 hours. So 15 degrees is 1 hour offset.
                         var ts = Date.parse(p["ts"]);
                         var offsetHours = Math.round((24 / 360) * p["lng"]);
-                        ts += offsetHours * 60 * 60 * 1000;
+                        var offsetDate = new Date(
+                            ts + offsetHours * 60 * 60 * 1000
+                        );
 
-                        var day = new Date(ts).getUTCDate();
+                        var day = offsetDate.getUTCDate();
                         if (lastDay == -1) {
                             lastDay = day;
                         }
@@ -198,17 +200,25 @@ import SiteLayout from "../layouts/site.astro";
                                 title: "Nacht #" + ++dayCnt,
                             });
 
+                            var dayBeforeNight = new Date(
+                                offsetDate - 86400 * 1000
+                            );
+                            var formattedDate =
+                                dayBeforeNight.toLocaleDateString("de-CH", {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                });
                             google.maps.event.addListener(
                                 marker,
                                 "click",
                                 function () {
                                     infowindow.setContent(
-                                        "<h4>" +
+                                        "<p><b>" +
                                             marker.title +
-                                            "</h4><p>Time: " +
-                                            p["ts"] +
-                                            " GMT+0" +
-                                            "<br>Lat: " +
+                                            "</b><br/>" +
+                                            formattedDate +
+                                            "<br/><br/>Lat: " +
                                             p["lat"] +
                                             "<br/>Long: " +
                                             p["lng"] +
