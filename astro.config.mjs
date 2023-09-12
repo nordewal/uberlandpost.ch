@@ -9,4 +9,5 @@ export default defineConfig({
   experimental: {
     assets: true
    },
+  cacheDir: "cache",
 });

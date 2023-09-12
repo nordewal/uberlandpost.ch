@@ -6,6 +6,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "cfbuild": "bin/fetch_old_assets.sh; astro build; bin/asset_list.sh",
     "preview": "astro preview",
     "astro": "astro"
   },
