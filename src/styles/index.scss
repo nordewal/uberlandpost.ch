@@ -13,10 +13,8 @@ div.blog-grid {
         img {
             object-fit: cover;
             object-position: center;
-            min-height: 100.2%;
-            min-width: 100.2%;
-            max-height: 100.8%;
-            max-width: 100.8%;
+            height:100%;
+            width: 100%;
         }	
 
         p {
@@ -35,7 +33,7 @@ div.blog-grid {
             opacity: 0;
 
             // slow hiding
-            transition: all 3s ease;
+            transition: all 5s ease;
             z-index: 6;
         }
 
@@ -61,7 +59,7 @@ div.blog-grid {
                 background: rgba(0, 0, 0, 0.55);
 
                 // slow hiding
-                transition: all 3s ease;
+                transition: all 5s ease;
             }
 
         &:hover, &.fadeOutOnLoad {

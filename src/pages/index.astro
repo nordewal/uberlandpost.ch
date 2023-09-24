@@ -29,9 +29,9 @@ await Promise.all(posts.map(async (post) => {
 
 		// remove 'fadeOutOnLoad' class, so that the blog titles vanish on page load
 		window.onload = function(){
-			var delay = 500
+			var delay = 2000
 			if (isMobile()){
-				delay = 2000
+				delay = 4000
 			}
 			setTimeout(() => {
 				Array.from(document.getElementsByClassName("fadeOutOnLoad")).map((e) => e.classList.remove("fadeOutOnLoad"));
