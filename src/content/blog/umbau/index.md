@@ -1,6 +1,7 @@
 ---
 title: Vom Lieferwagen zum rollenden Zuhause
 date: 2023-05-23
+country: Schweiz
 cover: ./PXL_20230602_081558567.MP.jpg
 images:
   - img: ./PXL_20221228_192159221.MP.jpg

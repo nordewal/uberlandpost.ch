@@ -20,7 +20,7 @@ await Promise.all(posts.map(async (post) => {
 ---
 
 <SiteLayout title="">
-	<style lang="scss">
+	<style lang="scss" is:global>
 		@import '../styles/index.scss';
 	</style>
 
@@ -44,14 +44,13 @@ await Promise.all(posts.map(async (post) => {
 					posts.map((post) => (
 						
 						<div class="grid-item">
-							<a href={`/blog/${post.slug}/`} class="fadeOutOnLoad">
+							<a href={`/blog/${post.slug}/`} class="fadeOutOnLoadd">
 								<Image src={post.data.cover} alt="" width="350"/>
-								
 									<p>
-										{post.data.title}
+										<span class="title">{post.data.title}</span>
 										<br />
-										<span class="sub-title">{post.data.country}</span>
-										<br />
+										<span class="sub-title country">{post.data.country}</span>
+										<br /><br />
 										<FormattedDate className="sub-title" 
 											date={post.data.date}
 										/>

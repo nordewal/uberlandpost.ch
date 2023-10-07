@@ -1,6 +1,7 @@
 ---
 title: Endlich los!
 date: 2023-06-14
+country: Schweiz
 cover: ./IMG-20230614-WA0000.jpg
 images:
   - img: ./20230610_104853~2.jpg
