@@ -23,28 +23,12 @@ await Promise.all(posts.map(async (post) => {
 	<style lang="scss" is:global>
 		@import '../styles/index.scss';
 	</style>
-
-	<script>
-		import {isMobile} from "../scripts/utils.ts";
-
-		// remove 'fadeOutOnLoad' class, so that the blog titles vanish on page load
-		window.onload = function(){
-			var delay = 2000
-			if (isMobile()){
-				delay = 4000
-			}
-			setTimeout(() => {
-				Array.from(document.getElementsByClassName("fadeOutOnLoad")).map((e) => e.classList.remove("fadeOutOnLoad"));
-			}, delay);
-		};
-	</script>
-
 		<div class="blog-grid">
 				{
 					posts.map((post) => (
 						
 						<div class="grid-item">
-							<a href={`/blog/${post.slug}/`} class="fadeOutOnLoadd">
+							<a href={`/blog/${post.slug}/`}>
 								<Image src={post.data.cover} alt="" width="350"/>
 									<p>
 										<span class="title">{post.data.title}</span>
