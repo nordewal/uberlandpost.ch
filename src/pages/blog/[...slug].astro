@@ -58,6 +58,22 @@ const images = await Promise.all(
 			msnry.layout();
 		});
 
+		// Re-arrange grid when the window size changes
+		addEventListener("resize", (event) => {
+			// little sleep, so the navigation bar can adjust first
+			setTimeout(()=>{
+				msnry.layout()
+			}, 300);
+		});
+
+		// Re-arrange grid when leaving fullscreen
+		addEventListener("fullscreenchange", (event) => {
+			// little sleep, full-screen animation can finish
+			setTimeout(()=>{
+				msnry.layout()
+			}, 300);
+		});
+
 		// Fullscreen images when clicking on it
 		lightbox.init();
 	</script>
