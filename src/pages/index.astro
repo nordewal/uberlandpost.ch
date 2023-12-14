@@ -26,7 +26,6 @@ await Promise.all(posts.map(async (post) => {
 		<div class="blog-grid">
 				{
 					posts.map((post) => (
-						
 						<div class="grid-item">
 							<a href={`/blog/${post.slug}/`}>
 								<Image src={post.data.cover} alt="" width="350"/>
@@ -35,7 +34,7 @@ await Promise.all(posts.map(async (post) => {
 										<br />
 										<span class="sub-title country">{post.data.country}</span>
 										<br /><br />
-										<FormattedDate className="sub-title" 
+										<FormattedDate className="sub-title"
 											date={post.data.date}
 										/>
 									</p>
