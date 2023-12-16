@@ -28,7 +28,7 @@ await Promise.all(posts.map(async (post) => {
 					posts.map((post) => (
 						<div class="grid-item">
 							<a href={`/blog/${post.slug}/`}>
-								<Image src={post.data.cover} alt="" width="350"/>
+								<Image src={post.data.cover} alt="" width="600" quality="mid"/>
 									<p>
 										<span class="title">{post.data.title}</span>
 										<br />
