@@ -1,6 +1,6 @@
 ---
 title: Lorem ipsum
-date: 2023-
+date: 2024-
 country:
 cover: ./cover.jpg
 images:
