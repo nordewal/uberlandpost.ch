@@ -243,7 +243,7 @@ import SiteLayout from "../layouts/site.astro";
                 const zoom = map.getZoom();
                 if (zoom) {
                     tentMarkers.forEach((m) => {
-                        m.setVisible(zoom >= 4);
+                        m.setVisible(zoom >= 5);
                     });
                 }
             });
