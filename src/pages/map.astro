@@ -163,6 +163,7 @@ import SiteLayout from "../layouts/site.astro";
 
             var infowindow = new google.maps.InfoWindow();
 
+            var tentMarkers = [];
             getJSON(
                 "https://s3.eu-central-2.wasabisys.com/uberlandpost/public-coords.json",
                 function (data) {
@@ -199,6 +200,7 @@ import SiteLayout from "../layouts/site.astro";
                                 icon: "https://mt.google.com/vt/icon/name=icons/spotlight/camping_L_8x.png&scale=1",
                                 title: "Nacht #" + ++dayCnt,
                             });
+                            tentMarkers.push(marker);
 
                             var dayBeforeNight = new Date(
                                 offsetDate - 86400 * 1000
@@ -235,6 +237,16 @@ import SiteLayout from "../layouts/site.astro";
                     });
                 }
             );
+
+            // hide markers (tents) at larger zoom levels
+            map.addListener('zoom_changed', () => {
+                const zoom = map.getZoom();
+                if (zoom) {
+                    tentMarkers.forEach((m) => {
+                        m.setVisible(zoom >= 4);
+                    });
+                }
+            });
         }
     </script>
     <div id="map"></div>
