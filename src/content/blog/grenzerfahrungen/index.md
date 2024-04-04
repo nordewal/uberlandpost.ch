@@ -1,7 +1,7 @@
 ---
 title: Grenzerfahrungen
 date: 2023-09-05
-country: Russland, Kasachstan
+country: Russland & Kasachstan
 cover: ./DSCF4596.jpg
 images:
   - img: ./DSCF4579.jpg
