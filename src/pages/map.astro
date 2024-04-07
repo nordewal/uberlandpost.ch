@@ -31,7 +31,9 @@ import SiteLayout from "../layouts/site.astro";
                 styles: getMapStyle(),
             });
 
-            addRoute(map);
+            addRouteDriven(map, "/CH-IN.json", "#b01c09");
+            addRouteTransport(map, "/IN-AZ.json", "#150833");
+            addRouteDriven(map, "https://s3.eu-central-2.wasabisys.com/uberlandpost/public-coords.json", "#150833");
         }
 
         function getMapStyle() {
@@ -42,15 +44,42 @@ import SiteLayout from "../layouts/site.astro";
             // [{elementType:"geometry",stylers:[{saturation:-50},{lightness:-5},{gamma:0.4}]},{featureType:"landscape.man_made",elementType:"geometry",stylers:[{gamma:5.62}]},{featureType:"poi.park",stylers:[{saturation:-25}]},{featureType:"transit",elementType:"labels.text.stroke",stylers:[{saturation:-65},{lightness:15},{gamma:0.42},{weight:2.5}]},{featureType:"transit.line",elementType:"geometry",stylers:[{hue:"#ff5e00"},{saturation:-23},{lightness:-48},{gamma:1.2}]},{featureType:"water",stylers:[{hue:"#00ccff"},{saturation:-33},{gamma:0.84}]},{featureType:"water",elementType:"labels.text.fill",stylers:[{hue:"#007fff"},{saturation:65},{lightness:99},{gamma:0.77}]},{featureType:"water",elementType:"labels.text.stroke",stylers:[{hue:"#0091ff"},{saturation:99},{lightness:-86},{gamma:0.11},{weight:5.6}]}]
         }
 
-        function addRoute(map) {
-            getJSON(
-                "https://s3.eu-central-2.wasabisys.com/uberlandpost/public-coords.json",
+        // Draw dashed line without tent markers
+        function addRouteTransport(map, jsonURL, color) {
+            getJSON(jsonURL,
+                function (data) {
+                    var lineSymbol = {
+                        path: 'M 0,-1 0,1',
+                        strokeOpacity: 1,
+                        strokeWeight: 2,
+                        scale: 3
+                    };
+                    // Draw line between locations
+                    var path = new google.maps.Polyline({
+                        path: data,
+                        geodesic: true,
+                        strokeColor: color,
+                        strokeWeight: 0,
+                        icons: [{
+                            icon: lineSymbol,
+                            offset: '0',
+                            repeat: '15px'
+                        }],
+                    });
+                    path.setMap(map);
+                },
+            );
+        }
+
+        // Draw solid line with tent markers
+        function addRouteDriven(map, jsonURL, color) {
+            getJSON(jsonURL,
                 function (data) {
                     // Draw line between locations
                     var path = new google.maps.Polyline({
                         path: data,
                         geodesic: true,
-                        strokeColor: "#b01c09",
+                        strokeColor: color,
                         strokeOpacity: 1.0,
                         strokeWeight: 2,
                     });
