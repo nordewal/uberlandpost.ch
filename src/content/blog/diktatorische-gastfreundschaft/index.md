@@ -13,7 +13,7 @@ images:
 - img: ./DSCF5992.jpg
   desc: Abdölasis, der jüngste Sohn
 - img: ./DSCF6132.jpg
-  desc: Irode, die Grossmutter
+  desc: Oyden, die Grossmutter
 - img: ./DSCF6010.jpg
   desc: Nadine wird in eine usbekische Tracht gesteckt
 - img: ./DSCF6025.jpg

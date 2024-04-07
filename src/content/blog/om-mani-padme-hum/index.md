@@ -1,6 +1,6 @@
 ---
 title: Om Mani Padme Hum
-date: 2024-01-04
+date: 2024-01-02
 country: Nepal
 cover: ./DSCF2948.jpg
 images:

@@ -21,7 +21,7 @@ images:
   - img: ./DSCF1022.jpg
     desc: Yaks in den Ebenen von Changthang
   - img: ./DSCF1028.jpg
-    desc: Pass vor dem Namuco-See
+    desc: Pass vor dem Nam Co-See
   - img: ./DSCF1041.jpg
   - img: ./DSCF1087.jpg
     desc: Was für ein Übernachtungsort!
@@ -36,7 +36,7 @@ images:
   - img: ./DSCF1171.jpg
     desc: Höhlentempel
   - img: ./DSCF1178.jpg
-    desc: Heiliger Namuco-See
+    desc: Heiliger Nam Co-See
   - img: ./DSCF1179.jpg
     desc: Manisteine
   - img: ./DSCF1187.jpg
