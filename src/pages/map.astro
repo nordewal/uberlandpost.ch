@@ -23,24 +23,113 @@ import SiteLayout from "../layouts/site.astro";
     </style>
 
     <script type="text/javascript">
-        // function to check if DOM is loaded
-        function docReady(fn) {
-            // see if DOM is already available
-            if (
-                document.readyState === "complete" ||
-                document.readyState === "interactive"
-            ) {
-                // call on next available tick
-                setTimeout(fn, 1);
-            } else {
-                document.addEventListener("DOMContentLoaded", fn);
-            }
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: new google.maps.LatLng(27, 50),
+                zoom: 3,
+                mapTypeId: google.maps.MapTypeId.TERRAIN,
+                styles: getMapStyle(),
+            });
+
+            addRoute(map);
         }
 
-        // When the window has finished loading create our google map below
-        docReady(function () {
-            initMap();
-        });
+        function getMapStyle() {
+            // Custom style for the map
+            return [{elementType:"geometry",stylers:[{hue:"#ff4400"},{saturation:-68},{lightness:-4},{gamma:0.72}]},{featureType:"road",elementType:"labels.icon"},{featureType:"landscape.man_made",elementType:"geometry",stylers:[{hue:"#0077ff"},{gamma:3.1}]},{featureType:"water",stylers:[{hue:"#00ccff"},{gamma:0.44},{saturation:-33}]},{featureType:"poi.park",stylers:[{hue:"#44ff00"},{saturation:-23}]},{featureType:"water",elementType:"labels.text.fill",stylers:[{hue:"#007fff"},{gamma:0.77},{saturation:65},{lightness:99}]},{featureType:"water",elementType:"labels.text.stroke",stylers:[{gamma:0.11},{weight:5.6},{saturation:99},{hue:"#0091ff"},{lightness:-86}]},{featureType:"transit.line",elementType:"geometry",stylers:[{lightness:-48},{hue:"#ff5e00"},{gamma:1.2},{saturation:-23}]},{featureType:"transit",elementType:"labels.text.stroke",stylers:[{saturation:-64},{hue:"#ff9100"},{lightness:16},{gamma:0.47},{weight:2.7}]}]
+                
+            // ALternativ style:
+            // [{elementType:"geometry",stylers:[{saturation:-50},{lightness:-5},{gamma:0.4}]},{featureType:"landscape.man_made",elementType:"geometry",stylers:[{gamma:5.62}]},{featureType:"poi.park",stylers:[{saturation:-25}]},{featureType:"transit",elementType:"labels.text.stroke",stylers:[{saturation:-65},{lightness:15},{gamma:0.42},{weight:2.5}]},{featureType:"transit.line",elementType:"geometry",stylers:[{hue:"#ff5e00"},{saturation:-23},{lightness:-48},{gamma:1.2}]},{featureType:"water",stylers:[{hue:"#00ccff"},{saturation:-33},{gamma:0.84}]},{featureType:"water",elementType:"labels.text.fill",stylers:[{hue:"#007fff"},{saturation:65},{lightness:99},{gamma:0.77}]},{featureType:"water",elementType:"labels.text.stroke",stylers:[{hue:"#0091ff"},{saturation:99},{lightness:-86},{gamma:0.11},{weight:5.6}]}]
+        }
+
+        function addRoute(map) {
+            getJSON(
+                "https://s3.eu-central-2.wasabisys.com/uberlandpost/public-coords.json",
+                function (data) {
+                    // Draw line between locations
+                    var path = new google.maps.Polyline({
+                        path: data,
+                        geodesic: true,
+                        strokeColor: "#0000ff",
+                        strokeOpacity: 1.0,
+                        strokeWeight: 2,
+                    });
+                    path.setMap(map);
+
+                    addTentMarkers(map, data);
+                },
+            );
+        }
+
+        function addTentMarkers(map, data) {
+            var infowindow = new google.maps.InfoWindow();
+            var tentMarkers = [];
+            var lastDay = -1;
+            var dayCnt = 0;
+            data.forEach((p) => {
+                // we don't have the effective timezone, so we guess the offset from GMT based on the lontitude:
+                // 360 degress is once around the earth, which has 24 hours. So 15 degrees is 1 hour offset.
+                var ts = Date.parse(p["ts"]);
+                var offsetHours = Math.round((24 / 360) * p["lng"]);
+                var offsetDate = new Date(ts + offsetHours * 60 * 60 * 1000);
+
+                var day = offsetDate.getUTCDate();
+                if (lastDay == -1) {
+                    lastDay = day;
+                }
+                if (lastDay != day) {
+                    var marker = new google.maps.Marker({
+                        position: { lat: p["lat"], lng: p["lng"] },
+                        map: map,
+                        icon: "https://mt.google.com/vt/icon/name=icons/spotlight/camping_L_8x.png&scale=1",
+                        title: "Nacht #" + ++dayCnt,
+                        visible: false,
+                    });
+                    tentMarkers.push(marker);
+
+                    var dayBeforeNight = new Date(offsetDate - 86400 * 1000);
+                    var formattedDate = dayBeforeNight.toLocaleDateString(
+                        "de-CH",
+                        {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                        },
+                    );
+                    google.maps.event.addListener(marker, "click", function () {
+                        infowindow.setContent(
+                            "<p><b>" +
+                                marker.title +
+                                "</b><br/>" +
+                                formattedDate +
+                                "<br/><br/>Höhe: " +
+                                Math.round(p["alt"]) +
+                                " MüM<br/>Lat: " +
+                                p["lat"] +
+                                "<br/>Long: " +
+                                p["lng"] +
+                                "</p>",
+                        );
+                        infowindow.setPosition(marker.position);
+                        infowindow.open(map);
+                    });
+                }
+                lastDay = day;
+            });
+
+            var updateMarkerVisibility = function () {
+                const zoom = map.getZoom();
+                if (zoom) {
+                    tentMarkers.forEach((m) => {
+                        m.setVisible(zoom >= 5);
+                    });
+                }
+            };
+
+            // hide markers (tents) at larger zoom levels
+            map.addListener("zoom_changed", updateMarkerVisibility);
+            updateMarkerVisibility();
+        }
 
         function getJSON(url, callback) {
             var request = new XMLHttpRequest();
@@ -62,192 +151,24 @@ import SiteLayout from "../layouts/site.astro";
             request.send();
         }
 
-        function initMap() {
-            // Basic options for a simple Google Map
-            // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
-            var mapOptions = {
-                // How zoomed in you want the map to start at (always required)
-                zoom: 5,
-
-                // The latitude and longitude to center the map (always required)
-                center: new google.maps.LatLng(27, 75),
-
-                // How you would like to style the map.
-                // This is where you would paste any style found on Snazzy Maps.
-                styles: [
-                    {
-                        elementType: "geometry",
-                        stylers: [
-                            { hue: "#ff4400" },
-                            { saturation: -68 },
-                            { lightness: -4 },
-                            { gamma: 0.72 },
-                        ],
-                    },
-                    { featureType: "road", elementType: "labels.icon" },
-                    {
-                        featureType: "landscape.man_made",
-                        elementType: "geometry",
-                        stylers: [{ hue: "#0077ff" }, { gamma: 3.1 }],
-                    },
-                    {
-                        featureType: "water",
-                        stylers: [
-                            { hue: "#00ccff" },
-                            { gamma: 0.44 },
-                            { saturation: -33 },
-                        ],
-                    },
-                    {
-                        featureType: "poi.park",
-                        stylers: [{ hue: "#44ff00" }, { saturation: -23 }],
-                    },
-                    {
-                        featureType: "water",
-                        elementType: "labels.text.fill",
-                        stylers: [
-                            { hue: "#007fff" },
-                            { gamma: 0.77 },
-                            { saturation: 65 },
-                            { lightness: 99 },
-                        ],
-                    },
-                    {
-                        featureType: "water",
-                        elementType: "labels.text.stroke",
-                        stylers: [
-                            { gamma: 0.11 },
-                            { weight: 5.6 },
-                            { saturation: 99 },
-                            { hue: "#0091ff" },
-                            { lightness: -86 },
-                        ],
-                    },
-                    {
-                        featureType: "transit.line",
-                        elementType: "geometry",
-                        stylers: [
-                            { lightness: -48 },
-                            { hue: "#ff5e00" },
-                            { gamma: 1.2 },
-                            { saturation: -23 },
-                        ],
-                    },
-                    {
-                        featureType: "transit",
-                        elementType: "labels.text.stroke",
-                        stylers: [
-                            { saturation: -64 },
-                            { hue: "#ff9100" },
-                            { lightness: 16 },
-                            { gamma: 0.47 },
-                            { weight: 2.7 },
-                        ],
-                    },
-                ],
-            };
-
-            // Get the HTML DOM element that will contain your map
-            // We are using a div with id="map" seen below in the <body>
-            var mapElement = document.getElementById("map");
-
-            // Create the Google Map using our element and options defined above
-            var map = new google.maps.Map(mapElement, mapOptions);
-
-            // Resize stuff...
-            google.maps.event.addDomListener(window, "resize", function () {
-                var center = map.getCenter();
-                google.maps.event.trigger(map, "resize");
-                map.setCenter(center);
-            });
-
-            var infowindow = new google.maps.InfoWindow();
-
-            var tentMarkers = [];
-            getJSON(
-                "https://s3.eu-central-2.wasabisys.com/uberlandpost/public-coords.json",
-                function (data) {
-                    // Draw line between locations
-                    var path = new google.maps.Polyline({
-                        path: data,
-                        geodesic: true,
-                        strokeColor: "#0000ff",
-                        strokeOpacity: 1.0,
-                        strokeWeight: 2,
-                    });
-                    path.setMap(map);
-
-                    // Draw a tent icon for the first point of a day
-                    var lastDay = -1;
-                    var dayCnt = 0;
-                    data.forEach((p) => {
-                        // we don't have the effective timezone, so we guess the offset from GMT based on the lontitude:
-                        // 360 degress is once around the earth, which has 24 hours. So 15 degrees is 1 hour offset.
-                        var ts = Date.parse(p["ts"]);
-                        var offsetHours = Math.round((24 / 360) * p["lng"]);
-                        var offsetDate = new Date(
-                            ts + offsetHours * 60 * 60 * 1000
-                        );
-
-                        var day = offsetDate.getUTCDate();
-                        if (lastDay == -1) {
-                            lastDay = day;
-                        }
-                        if (lastDay != day) {
-                            var marker = new google.maps.Marker({
-                                position: { lat: p["lat"], lng: p["lng"] },
-                                map: map,
-                                icon: "https://mt.google.com/vt/icon/name=icons/spotlight/camping_L_8x.png&scale=1",
-                                title: "Nacht #" + ++dayCnt,
-                            });
-                            tentMarkers.push(marker);
-
-                            var dayBeforeNight = new Date(
-                                offsetDate - 86400 * 1000
-                            );
-                            var formattedDate =
-                                dayBeforeNight.toLocaleDateString("de-CH", {
-                                    year: "numeric",
-                                    month: "short",
-                                    day: "numeric",
-                                });
-                            google.maps.event.addListener(
-                                marker,
-                                "click",
-                                function () {
-                                    infowindow.setContent(
-                                        "<p><b>" +
-                                            marker.title +
-                                            "</b><br/>" +
-                                            formattedDate +
-                                            "<br/><br/>Höhe: " +
-                                            Math.round(p["alt"]) +
-                                            " MüM<br/>Lat: " +
-                                            p["lat"] +
-                                            "<br/>Long: " +
-                                            p["lng"] +
-                                            "</p>"
-                                    );
-                                    infowindow.setPosition(marker.position);
-                                    infowindow.open(map);
-                                }
-                            );
-                        }
-                        lastDay = day;
-                    });
-                }
-            );
-
-            // hide markers (tents) at larger zoom levels
-            map.addListener('zoom_changed', () => {
-                const zoom = map.getZoom();
-                if (zoom) {
-                    tentMarkers.forEach((m) => {
-                        m.setVisible(zoom >= 5);
-                    });
-                }
-            });
+        // function to check if DOM is loaded
+        function docReady(fn) {
+            // see if DOM is already available
+            if (
+                document.readyState === "complete" ||
+                document.readyState === "interactive"
+            ) {
+                // call on next available tick
+                setTimeout(fn, 1);
+            } else {
+                document.addEventListener("DOMContentLoaded", fn);
+            }
         }
+
+        // When the window has finished loading create our google map below
+        docReady(function () {
+            initMap();
+        });
     </script>
     <div id="map"></div>
 </SiteLayout>
