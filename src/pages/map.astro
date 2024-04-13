@@ -15,10 +15,8 @@ import SiteLayout from "../layouts/site.astro";
             const { Map } = await google.maps.importLibrary("maps");
 
             const map = new Map(document.getElementById("map"), {
-                center: { lat: 47, lng: 50 },
-                zoom: 8,
-                // center: { lat: 27, lng: 50 },
-                // zoom: 3,
+                center: { lat: 27, lng: 50 },
+                zoom: 3,
                 mapId: "f1a1ad3aa0270159",
                 mapTypeId: google.maps.MapTypeId.TERRAIN,
             });
