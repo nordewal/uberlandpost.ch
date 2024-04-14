@@ -1,7 +1,7 @@
 ---
 title: Odysee!
 date: 2024-04-08
-country: Azerbaidschan
+country: Aserbaidschan
 cover: ./PXL_20240228_114445011.MP.jpg
 images:
   - img: ./DSCF6694.jpg
