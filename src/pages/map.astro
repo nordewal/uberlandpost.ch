@@ -21,59 +21,56 @@ import SiteLayout from "../layouts/site.astro";
                 mapTypeId: google.maps.MapTypeId.TERRAIN,
             });
 
-            addRouteDriven(map, "/CH-IN.json", "#b01c09");
-            addRouteTransport(map, "/IN-AZ.json", "#FFA500");
-            addRouteDriven(
-                map,
-                "https://s3.eu-central-2.wasabisys.com/uberlandpost/public-coords.json",
-                "#FFA500",
-            );
+            await addRouteDriven(map, "/CH-IN.json", "#b01c09");
+            await addRouteTransport(map, "/IN-AZ.json", "#FFA500");
+            await addRouteDriven(map, "/AZ-CH.json", "#FFA500");
+            // addRouteDriven( map, "https://s3.eu-central-2.wasabisys.com/uberlandpost/public-coords.json", "#FFA500");
         }
 
         // Draw dashed line without tent markers
         async function addRouteTransport(map, jsonURL, color) {
-            getJSON(jsonURL, function (data) {
-                // dotted line
-                var lineSymbol = {
-                    path: "M 0,-1 0,1",
-                    strokeOpacity: 1,
-                    strokeWeight: 2,
-                    scale: 3,
-                };
+            var routeJSON = await getJSON(jsonURL);
 
-                // Draw line between locations
-                var path = new google.maps.Polyline({
-                    path: data,
-                    geodesic: true,
-                    strokeColor: color,
-                    strokeWeight: 0,
-                    icons: [
-                        {
-                            icon: lineSymbol,
-                            offset: "0",
-                            repeat: "15px",
-                        },
-                    ],
-                });
-                path.setMap(map);
+            // dotted line
+            var lineSymbol = {
+                path: "M 0,-1 0,1",
+                strokeOpacity: 1,
+                strokeWeight: 2,
+                scale: 3,
+            };
+
+            // Draw line between locations
+            var path = new google.maps.Polyline({
+                path: routeJSON,
+                geodesic: true,
+                strokeColor: color,
+                strokeWeight: 0,
+                icons: [
+                    {
+                        icon: lineSymbol,
+                        offset: "0",
+                        repeat: "15px",
+                    },
+                ],
             });
+            path.setMap(map);
         }
 
         // Draw solid line with tent markers
         async function addRouteDriven(map, jsonURL, color) {
-            getJSON(jsonURL, function (data) {
-                // Draw line between locations
-                var path = new google.maps.Polyline({
-                    path: data,
-                    geodesic: true,
-                    strokeColor: color,
-                    strokeOpacity: 1.0,
-                    strokeWeight: 2,
-                });
-                path.setMap(map);
+            var routeJSON = await getJSON(jsonURL);
 
-                addTentMarkers(map, data, color);
+            // Draw line between locations
+            var path = new google.maps.Polyline({
+                path: routeJSON,
+                geodesic: true,
+                strokeColor: color,
+                strokeOpacity: 1.0,
+                strokeWeight: 2,
             });
+            path.setMap(map);
+
+            addTentMarkers(map, routeJSON, color);
         }
 
         // Add tent markers
@@ -167,24 +164,28 @@ import SiteLayout from "../layouts/site.astro";
             updateMarkerVisibility();
         }
 
-        function getJSON(url, callback) {
-            var request = new XMLHttpRequest();
-            request.open("GET", url, true);
-
-            request.onload = function () {
-                if (this.status >= 200 && this.status < 400) {
-                    var data = JSON.parse(this.response);
-                    callback(data);
-                } else {
-                    console.log(this);
-                }
-            };
-
-            request.onerror = function () {
-                console.log(this);
-            };
-
-            request.send();
+        function getJSON(url) {
+            return new Promise(function (resolve, reject) {
+                let xhr = new XMLHttpRequest();
+                xhr.open("GET", url);
+                xhr.onload = function () {
+                    if (this.status >= 200 && this.status < 300) {
+                        resolve(JSON.parse(xhr.response));
+                    } else {
+                        reject({
+                            status: this.status,
+                            statusText: xhr.statusText
+                        });
+                    }
+                };
+                xhr.onerror = function () {
+                    reject({
+                        status: this.status,
+                        statusText: xhr.statusText
+                    });
+                };
+                xhr.send();
+            });
         }
 
         // function to check if DOM is loaded
