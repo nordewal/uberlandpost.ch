@@ -154,7 +154,7 @@ import SiteLayout from "../layouts/site.astro";
                 const zoom = map.getZoom();
                 if (zoom) {
                     tentMarkers.forEach((m) => {
-                        m.map = zoom >= 8 ? map : null;
+                        m.map = zoom >= 5 ? map : null;
                     });
                 }
             };
