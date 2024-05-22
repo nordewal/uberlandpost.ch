@@ -21,10 +21,12 @@ import SiteLayout from "../layouts/site.astro";
                 mapTypeId: google.maps.MapTypeId.TERRAIN,
             });
 
+            addRouteTransport(map, "/IN-AZ.json", "#FFA500");
+            // await, so the calculation of days works correctly. The next 'addRouteDriven' call builds up on the previous one - global variables...
+            // Not nice, and could be refactored...
             await addRouteDriven(map, "/CH-IN.json", "#b01c09");
-            await addRouteTransport(map, "/IN-AZ.json", "#FFA500");
             await addRouteDriven(map, "/AZ-CH.json", "#FFA500");
-            // addRouteDriven( map, "https://s3.eu-central-2.wasabisys.com/uberlandpost/public-coords.json", "#FFA500");
+            // await addRouteDriven( map, "https://s3.eu-central-2.wasabisys.com/uberlandpost/public-coords.json", "#FFA500");
         }
 
         // Draw dashed line without tent markers
