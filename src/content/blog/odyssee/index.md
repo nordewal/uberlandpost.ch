@@ -1,5 +1,5 @@
 ---
-title: Odysee!
+title: Odyssee!
 date: 2024-04-08
 country: Aserbaidschan
 cover: ./PXL_20240228_114445011.MP.jpg
